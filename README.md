@@ -18,8 +18,8 @@ Render y Netlify: como mencioné antes, ya había usado estos servicios anterior
 - Una base de datos MongoDB
 
 ### 2. Clonar e instalar
-### git clone <moviestream>
-### cd moviestream
+#### git clone <moviestream>
+#### cd moviestream
 #### npm install
 
 
@@ -28,13 +28,13 @@ Configurar el .env con MONGO_URI
 
 ### 4. Poblar la base de datos
 Al correr seed.js con npm run seed se espera este output:
-### ✅ Connected to MongoDB
-### 🎭 Inserted 5 genres
-### 🎬 Inserted 20 movies
-### 👤 Inserted 15 customers
-### 📊 Inserted 22 interactions
-### 📑 Indexes created
-### 🎉 Seed complete!
+#### ✅ Connected to MongoDB
+#### 🎭 Inserted 5 genres
+#### 🎬 Inserted 20 movies
+#### 👤 Inserted 15 customers
+#### 📊 Inserted 22 interactions
+#### 📑 Indexes created
+#### 🎉 Seed complete!
 
 ### 5. Arrancar la app local
 npm run dev
