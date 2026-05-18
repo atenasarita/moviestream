@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+
+<div class="detail-layout no-poster">
+  <div class="detail-info">
+    <div class="breadcrumb"><a href="/customers">Clientes</a> / <%= customer.first_name %> <%= customer.last_name %></div>
+    <h1 class="detail-title"><%= customer.first_name %> <%= customer.last_name %></h1>
+
+    <div class="detail-meta">
+      <span class="chip"><%= customer.gender === 'M' ? '♂' : '♀' %> <%= customer.gender %></span>
+      <span class="chip"><%= customer.age %> años</span>
+      <span class="chip"><%= customer.city %>, <%= customer.country %></span>
+      <span class="chip tag"><%= customer.segment?.name || '—' %></span>
+    </div>
+
+    <div class="detail-grid">
+      <div><strong>Email</strong><br/><%= customer.email %></div>
+      <div><strong>Nivel de ingresos</strong><br/><%= customer.income_level || '—' %></div>
+      <div><strong>Plan</strong><br/><%= customer.subscription?.plan_name || '—' %></div>
+      <div><strong>Suscripción desde</strong><br/>
+        <%= customer.subscription?.fecha_inicio ? new Date(customer.subscription.fecha_inicio).toLocaleDateString('es-MX') : '—' %>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <a href="/customers/<%= customer._id %>/edit" class="btn btn-primary">Editar</a>
+      <form method="POST" action="/customers/<%= customer._id %>/delete" class="inline" onsubmit="return confirm('¿Eliminar este cliente y sus interacciones?')">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+      </form>
+      <a href="/customers" class="btn btn-ghost">← Volver</a>
+    </div>
+  </div>
+</div>
+
+<% if (interactions.length > 0) { %>
+<section class="section-block">
+  <h3>Historial de compras / vistas</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Fecha</th><th>Película</th><th>Dispositivo</th><th>Pago</th><th>Precio</th></tr>
+    </thead>
+    <tbody>
+      <% interactions.forEach(i => { %>
+        <tr>
+          <td><%= i.day_id?.toLocaleDateString('es-MX') %></td>
+          <td>
+            <% const m = movieMap[i.movie_id]; %>
+            <% if (m) { %>
+              <a href="/movies/<%= m._id %>"><%= m.title %></a>
+            <% } else { %>ID <%= i.movie_id %><% } %>
+          </td>
+          <td><%= i.device %></td>
+          <td><%= i.payment_method %></td>
+          <td>$<%= i.actual_price?.toFixed(2) %>
+            <% if (i.discount_percent > 0) { %>
+              <span class="text-muted">(−<%= i.discount_percent %>%)</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+<% } else { %>
+  <section class="section-block"><p class="text-muted">Este cliente no tiene interacciones registradas.</p></section>
+<% } %>
+
+<%- include('../partials/footer') %>

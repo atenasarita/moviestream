@@ -1,0 +1,86 @@
+<%- include('../partials/header') %>
+
+<div class="detail-layout">
+  <div class="detail-poster">
+    <% if (movie.image_url) { %>
+      <img src="<%= movie.image_url %>" alt="<%= movie.title %>" onerror="this.src=''" />
+    <% } else { %>
+      <div class="poster-placeholder">🎬</div>
+    <% } %>
+  </div>
+
+  <div class="detail-info">
+    <div class="breadcrumb"><a href="/movies">Películas</a> / <%= movie.title %></div>
+    <h1 class="detail-title"><%= movie.title %></h1>
+    <div class="detail-meta">
+      <span class="chip"><%= movie.year %></span>
+      <span class="chip"><%= movie.runtime %></span>
+      <span class="chip">$<%= movie.list_price?.toFixed(2) %></span>
+      <span class="chip"><%= movie.views?.toLocaleString() %> views</span>
+    </div>
+
+    <div class="genre-tags">
+      <% (movie.genres || []).forEach(g => { %>
+        <span class="tag tag-lg"><%= g.name %></span>
+      <% }) %>
+    </div>
+
+    <p class="detail-summary"><%= movie.summary %></p>
+
+    <div class="detail-grid">
+      <div><strong>Director</strong><br/><%= movie.crew?.director || '—' %></div>
+      <div><strong>Guion</strong><br/><%= movie.crew?.writer || '—' %></div>
+      <div><strong>Estudio</strong><br/><%= movie.studio || '—' %></div>
+      <div><strong>Tema principal</strong><br/><%= movie.main_subject || '—' %></div>
+      <div><strong>Premios</strong><br/><%= movie.awards?.wins %> wins / <%= movie.awards?.nominations %> noms</div>
+      <div><strong>Presupuesto</strong><br/>$<%= movie.budget ? Number(movie.budget).toLocaleString() : '—' %></div>
+    </div>
+
+    <% if (movie.cast && movie.cast.length) { %>
+      <div class="cast-section">
+        <strong>Elenco</strong>
+        <div class="cast-list">
+          <% movie.cast.forEach(actor => { %>
+            <span class="chip"><%= actor %></span>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+
+    <div class="detail-actions">
+      <a href="/movies/<%= movie._id %>/edit" class="btn btn-primary">Editar</a>
+      <form method="POST" action="/movies/<%= movie._id %>/delete" class="inline" onsubmit="return confirm('¿Eliminar esta película y sus interacciones?')">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+      </form>
+      <a href="/movies" class="btn btn-ghost">← Volver</a>
+    </div>
+  </div>
+</div>
+
+<% if (interactions.length > 0) { %>
+<section class="section-block">
+  <h3>Últimas interacciones</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Fecha</th><th>Cliente</th><th>Dispositivo</th><th>Precio</th></tr>
+    </thead>
+    <tbody>
+      <% interactions.forEach(i => { %>
+        <tr>
+          <td><%= i.day_id?.toLocaleDateString('es-MX') %></td>
+          <td>
+            <% const c = custMap[i.cust_id]; %>
+            <% if (c) { %>
+              <a href="/customers/<%= c._id %>"><%= c.first_name %> <%= c.last_name %></a>
+            <% } else { %>ID <%= i.cust_id %><% } %>
+          </td>
+          <td><%= i.device %> / <%= i.os %></td>
+          <td>$<%= i.actual_price?.toFixed(2) %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+<% } %>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,101 @@
+<%- include('../partials/header') %>
+
+<div class="form-page">
+  <div class="breadcrumb">
+    <a href="/customers">Clientes</a> / <%= customer ? 'Editar' : 'Nuevo cliente' %>
+  </div>
+  <h2><%= customer ? 'Editar: ' + customer.first_name + ' ' + customer.last_name : 'Nuevo Cliente' %></h2>
+
+  <form method="POST" action="<%= action %>" class="form-card">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input type="text" name="first_name" required value="<%= customer?.first_name || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Apellido *</label>
+        <input type="text" name="last_name" required value="<%= customer?.last_name || '' %>" />
+      </div>
+      <div class="form-group full">
+        <label>Email *</label>
+        <input type="email" name="email" required value="<%= customer?.email || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Ciudad</label>
+        <input type="text" name="city" value="<%= customer?.city || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>País</label>
+        <input type="text" name="country" value="<%= customer?.country || 'Mexico' %>" />
+      </div>
+      <div class="form-group">
+        <label>Edad</label>
+        <input type="number" name="age" min="10" max="110" value="<%= customer?.age || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Género</label>
+        <select name="gender">
+          <option value="">— Seleccionar —</option>
+          <option value="M" <%= customer?.gender === 'M' ? 'selected' : '' %>>Masculino</option>
+          <option value="F" <%= customer?.gender === 'F' ? 'selected' : '' %>>Femenino</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nivel de ingresos</label>
+        <select name="income_level">
+          <option value="Low" <%= customer?.income_level === 'Low' ? 'selected' : '' %>>Bajo</option>
+          <option value="Middle" <%= customer?.income_level === 'Middle' ? 'selected' : '' %>>Medio</option>
+          <option value="High" <%= customer?.income_level === 'High' ? 'selected' : '' %>>Alto</option>
+        </select>
+      </div>
+
+      <div class="form-group form-section-title full"><strong>Segmento</strong></div>
+      <div class="form-group">
+        <label>ID Segmento</label>
+        <select name="segment_id">
+          <option value="1" <%= customer?.segment?.segment_id === 1 ? 'selected' : '' %>>1 — Affluent</option>
+          <option value="2" <%= customer?.segment?.segment_id === 2 ? 'selected' : '' %>>2 — Young Professionals</option>
+          <option value="3" <%= customer?.segment?.segment_id === 3 ? 'selected' : '' %>>3 — Families</option>
+          <option value="4" <%= customer?.segment?.segment_id === 4 ? 'selected' : '' %>>4 — Students</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nombre segmento</label>
+        <input type="text" name="segment_name" value="<%= customer?.segment?.name || 'Young Professionals' %>" />
+      </div>
+      <div class="form-group">
+        <label>Abrev. segmento</label>
+        <input type="text" name="segment_short" maxlength="5" value="<%= customer?.segment?.short_name || 'YP' %>" />
+      </div>
+
+      <div class="form-group form-section-title full"><strong>Suscripción</strong></div>
+      <div class="form-group">
+        <label>Plan</label>
+        <select name="plan_id" id="plan_select">
+          <option value="1" <%= customer?.subscription?.plan_id === 1 ? 'selected' : '' %>>Premium</option>
+          <option value="2" <%= customer?.subscription?.plan_id === 2 ? 'selected' : '' %>>Básico</option>
+          <option value="3" <%= customer?.subscription?.plan_id === 3 ? 'selected' : '' %>>Estudiante</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nombre del plan</label>
+        <input type="text" name="plan_name" value="<%= customer?.subscription?.plan_name || 'Básico' %>" />
+      </div>
+      <div class="form-group">
+        <label>Fecha inicio</label>
+        <input type="date" name="fecha_inicio" value="<%= customer?.subscription?.fecha_inicio ? new Date(customer.subscription.fecha_inicio).toISOString().split('T')[0] : '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Fecha fin (vacío = activa)</label>
+        <input type="date" name="fecha_fin" value="<%= customer?.subscription?.fecha_fin ? new Date(customer.subscription.fecha_fin).toISOString().split('T')[0] : '' %>" />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary"><%= customer ? 'Guardar cambios' : 'Crear cliente' %></button>
+      <a href="/customers" class="btn btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <h2>Clientes <span class="badge"><%= customers.length %></span></h2>
+  <a href="/customers/new" class="btn btn-primary">+ Nuevo</a>
+</div>
+
+<form class="filter-bar" method="GET" action="/customers">
+  <input type="text" name="q" placeholder="Buscar por nombre o email…" value="<%= q %>" class="input-search" />
+  <select name="segment" class="input-select">
+    <option value="">Todos los segmentos</option>
+    <% segments.forEach(s => { %>
+      <option value="<%= s %>" <%= selectedSegment === s ? 'selected' : '' %>><%= s %></option>
+    <% }) %>
+  </select>
+  <button type="submit" class="btn btn-secondary">Filtrar</button>
+  <% if (q || selectedSegment) { %><a href="/customers" class="btn btn-ghost">Limpiar</a><% } %>
+</form>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Ciudad</th>
+      <th>Edad</th>
+      <th>Segmento</th>
+      <th>Plan</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% customers.forEach(c => { %>
+    <tr>
+      <td><a href="/customers/<%= c._id %>"><%= c.first_name %> <%= c.last_name %></a></td>
+      <td class="text-muted"><%= c.email %></td>
+      <td><%= c.city %></td>
+      <td><%= c.age || '—' %></td>
+      <td><span class="tag"><%= c.segment?.short_name || '—' %></span></td>
+      <td><%= c.subscription?.plan_name || '—' %></td>
+      <td>
+        <a href="/customers/<%= c._id %>/edit" class="btn btn-sm btn-ghost">Editar</a>
+        <form method="POST" action="/customers/<%= c._id %>/delete" class="inline" onsubmit="return confirm('¿Eliminar este cliente?')">
+          <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<% if (customers.length === 0) { %>
+  <div class="empty-state">No se encontraron clientes.</div>
+<% } %>
+
+<%- include('../partials/footer') %>

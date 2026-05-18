@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<div class="hero">
+  <h1 class="hero-title">MovieStream</h1>
+  <p class="hero-sub">Panel de administración · Base de datos MongoDB</p>
+</div>
+
+<div class="stats-grid">
+  <a href="/movies" class="stat-card">
+    <span class="stat-number"><%= movieCount %></span>
+    <span class="stat-label">Películas</span>
+    <span class="stat-icon">🎬</span>
+  </a>
+  <a href="/genres" class="stat-card">
+    <span class="stat-number"><%= genreCount %></span>
+    <span class="stat-label">Géneros</span>
+    <span class="stat-icon">🎭</span>
+  </a>
+  <a href="/customers" class="stat-card">
+    <span class="stat-number"><%= customerCount %></span>
+    <span class="stat-label">Clientes</span>
+    <span class="stat-icon">👤</span>
+  </a>
+  <div class="stat-card no-link">
+    <span class="stat-number"><%= interactionCount %></span>
+    <span class="stat-label">Interacciones</span>
+    <span class="stat-icon">📊</span>
+  </div>
+</div>
+
+<div class="home-actions">
+  <a href="/movies/new" class="btn btn-primary">+ Nueva Película</a>
+  <a href="/customers/new" class="btn btn-secondary">+ Nuevo Cliente</a>
+</div>
+
+<%- include('partials/footer') %>

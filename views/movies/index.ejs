@@ -1,0 +1,56 @@
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <h2>Películas <span class="badge"><%= movies.length %></span></h2>
+  <a href="/movies/new" class="btn btn-primary">+ Nueva</a>
+</div>
+
+<form class="filter-bar" method="GET" action="/movies">
+  <input type="text" name="q" placeholder="Buscar por título…" value="<%= q %>" class="input-search" />
+  <select name="genre" class="input-select">
+    <option value="">Todos los géneros</option>
+    <% genres.forEach(g => { %>
+      <option value="<%= g.genre_id %>" <%= selectedGenre == g.genre_id ? 'selected' : '' %>><%= g.name %></option>
+    <% }) %>
+  </select>
+  <button type="submit" class="btn btn-secondary">Filtrar</button>
+  <% if (q || selectedGenre) { %><a href="/movies" class="btn btn-ghost">Limpiar</a><% } %>
+</form>
+
+<div class="movies-grid">
+  <% movies.forEach(movie => { %>
+  <div class="movie-card">
+    <a href="/movies/<%= movie._id %>">
+      <% if (movie.image_url) { %>
+        <img class="movie-poster" src="<%= movie.image_url %>" alt="<%= movie.title %>" onerror="this.style.display='none'" />
+      <% } else { %>
+        <div class="movie-poster-placeholder">🎬</div>
+      <% } %>
+      <div class="movie-info">
+        <h3 class="movie-title"><%= movie.title %></h3>
+        <div class="movie-meta">
+          <span><%= movie.year %></span>
+          <span>$<%= movie.list_price?.toFixed(2) %></span>
+        </div>
+        <div class="genre-tags">
+          <% (movie.genres || []).forEach(g => { %>
+            <span class="tag"><%= g.name %></span>
+          <% }) %>
+        </div>
+      </div>
+    </a>
+    <div class="card-actions">
+      <a href="/movies/<%= movie._id %>/edit" class="btn btn-sm btn-ghost">Editar</a>
+      <form method="POST" action="/movies/<%= movie._id %>/delete" class="inline" onsubmit="return confirm('¿Eliminar esta película?')">
+        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+      </form>
+    </div>
+  </div>
+  <% }) %>
+</div>
+
+<% if (movies.length === 0) { %>
+  <div class="empty-state">No se encontraron películas.</div>
+<% } %>
+
+<%- include('../partials/footer') %>

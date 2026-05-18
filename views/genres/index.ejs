@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+
+<div class="page-header">
+  <h2>Géneros <span class="badge"><%= genres.length %></span></h2>
+</div>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-error"><%= error %></div>
+<% } %>
+
+<div class="genres-layout">
+  <!-- Add new genre -->
+  <div class="genre-form-card">
+    <h3>Nuevo género</h3>
+    <form method="POST" action="/genres" class="inline-form">
+      <input type="text" name="name" placeholder="Nombre del género" required class="input-search" />
+      <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+  </div>
+
+  <!-- Genre list -->
+  <div class="genre-list">
+    <% genres.forEach(g => { %>
+    <div class="genre-row">
+      <form method="POST" action="/genres/<%= g._id %>?_method=PUT" class="genre-edit-form">
+        <input type="text" name="name" value="<%= g.name %>" class="genre-input" />
+        <span class="text-muted genre-count"><%= countMap[g.genre_id] || 0 %> películas</span>
+        <button type="submit" class="btn btn-sm btn-secondary">Guardar</button>
+      </form>
+      <form method="POST" action="/genres/<%= g._id %>/delete" class="inline" onsubmit="return confirm('¿Eliminar género <%= g.name %>?')">
+        <button type="submit" class="btn btn-sm btn-danger">×</button>
+      </form>
+    </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

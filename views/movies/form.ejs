@@ -1,0 +1,96 @@
+<%- include('../partials/header') %>
+
+<div class="form-page">
+  <div class="breadcrumb">
+    <a href="/movies">Películas</a> / <%= movie ? 'Editar' : 'Nueva película' %>
+  </div>
+  <h2><%= movie ? 'Editar: ' + movie.title : 'Nueva Película' %></h2>
+
+  <form method="POST" action="<%= action %>" class="form-card">
+    <div class="form-grid">
+      <div class="form-group full">
+        <label>Título *</label>
+        <input type="text" name="title" required value="<%= movie?.title || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Año *</label>
+        <input type="number" name="year" required min="1900" max="2030" value="<%= movie?.year || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Duración</label>
+        <input type="text" name="runtime" placeholder="120 min" value="<%= movie?.runtime || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Estudio</label>
+        <input type="text" name="studio" value="<%= movie?.studio || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Precio ($)</label>
+        <input type="number" name="list_price" step="0.01" min="0" value="<%= movie?.list_price || 2.99 %>" />
+      </div>
+      <div class="form-group">
+        <label>Vistas</label>
+        <input type="number" name="views" min="0" value="<%= movie?.views || 0 %>" />
+      </div>
+      <div class="form-group">
+        <label>Presupuesto ($)</label>
+        <input type="text" name="budget" placeholder="25000000" value="<%= movie?.budget || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Tema principal</label>
+        <input type="text" name="main_subject" value="<%= movie?.main_subject || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Director</label>
+        <input type="text" name="director" value="<%= movie?.crew?.director || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Guionista</label>
+        <input type="text" name="writer" value="<%= movie?.crew?.writer || '' %>" />
+      </div>
+      <div class="form-group">
+        <label>Wins (premios)</label>
+        <input type="number" name="award_wins" min="0" value="<%= movie?.awards?.wins || 0 %>" />
+      </div>
+      <div class="form-group">
+        <label>Nominaciones</label>
+        <input type="number" name="award_noms" min="0" value="<%= movie?.awards?.nominations || 0 %>" />
+      </div>
+      <div class="form-group">
+        <label>Fecha de estreno</label>
+        <input type="date" name="opening_date" value="<%= movie?.opening_date ? movie.opening_date.toISOString().split('T')[0] : '' %>" />
+      </div>
+      <div class="form-group full">
+        <label>URL de póster</label>
+        <input type="url" name="image_url" placeholder="https://..." value="<%= movie?.image_url || '' %>" />
+      </div>
+      <div class="form-group full">
+        <label>Elenco (separado por comas)</label>
+        <input type="text" name="cast" placeholder="Actor 1, Actor 2, Actor 3" value="<%= (movie?.cast || []).join(', ') %>" />
+      </div>
+      <div class="form-group full">
+        <label>Sinopsis</label>
+        <textarea name="summary" rows="3"><%= movie?.summary || '' %></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Géneros</label>
+        <div class="checkbox-group">
+          <% genres.forEach(g => { %>
+            <label class="checkbox-label">
+              <input type="checkbox" name="genre_ids" value="<%= g.genre_id %>"
+                <%= (movie?.genres || []).some(mg => mg.genre_id === g.genre_id) ? 'checked' : '' %> />
+              <%= g.name %>
+            </label>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary"><%= movie ? 'Guardar cambios' : 'Crear película' %></button>
+      <a href="/movies" class="btn btn-ghost">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>
