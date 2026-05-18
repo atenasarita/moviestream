@@ -8,7 +8,7 @@ MovieStream en Mongo DB
 ## Stack Tecnológico 
 Node.js: ya había usado Render para deploy de backend usando Node y tuve una buena experiencia. También, como usé AI para generar el código, usar algo que ya conozco me da el espacio de poder proofread el código y hacer las correcciones necesarias.
 EJS: no había trabajado con esto, pero después de investigar un poco también se me hizo una buena opcion, al ser un template sencillo que me iba a ahorrar la necesidad de API REST separada. 
-Render y Netlify: como mencioné antes, ya había usado estos servicios anteriormente 
+Render: como mencioné antes, ya había usado este servicio anteriormente 
 
 
 ## Cómo correrlo desde cero
@@ -44,13 +44,5 @@ Se espera un output de
 
 
 La captura de pantalla de la app funcionando se encuentra en el root del proyecto con el nombre app-funcional :)
-
-
-**URL pública**: `https://<tu-app>.onrender.com`
-
-> Verificar desde una ventana de incógnito antes de entregar.
-
-## Captura de pantalla
-
-![MovieStream screenshot](./screenshot.png)
+URL de Render: https://moviestream-3m9j.onrender.com/ 
 
